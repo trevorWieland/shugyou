@@ -1,0 +1,14 @@
+[package]
+name = "game-server"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+clap.workspace = true
+game-net = { path = "../../crates/game-net" }
+game-simulation = { path = "../../crates/game-simulation" }

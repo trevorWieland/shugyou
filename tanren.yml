@@ -1,0 +1,60 @@
+methodology:
+  task_complete_requires: [gate_checked, audited, adherent]
+
+  source:
+    path: commands
+
+  install_targets:
+    - path: .claude/commands
+      format: claude-code
+      binding: mcp
+      merge_policy: destructive
+    - path: .codex/skills
+      format: codex-skills
+      binding: mcp
+      merge_policy: destructive
+    - path: .opencode/commands
+      format: opencode
+      binding: mcp
+      merge_policy: destructive
+    - path: tanren/standards
+      format: standards-baseline
+      binding: none
+      merge_policy: preserve_existing
+
+  mcp:
+    enabled: true
+    transport: stdio
+    also_write_configs:
+      - path: .mcp.json
+        format: claude-mcp-json
+        merge_policy: preserve_other_keys
+      - path: .codex/config.toml
+        format: codex-config-toml
+        merge_policy: preserve_other_keys
+      - path: opencode.json
+        format: opencode-json
+        merge_policy: preserve_other_keys
+
+  variables:
+    task_verification_hook: "just check"
+    spec_verification_hook: "just ci"
+    issue_provider: GitHub
+    project_language: rust
+    spec_root: tanren/specs
+    product_root: tanren/product
+    standards_root: tanren/standards
+    agent_cli_noun: "the agent CLI"
+    task_tool_binding: mcp
+
+  profiles:
+    rust-bevy:
+      variables:
+        project_language: rust
+        project_profile: rust-bevy
+
+environment:
+  default:
+    verification_hooks:
+      default: "just check"
+      run-demo: "just ci"

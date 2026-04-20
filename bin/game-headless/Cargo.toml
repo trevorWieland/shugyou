@@ -1,0 +1,13 @@
+[package]
+name = "game-headless"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+clap.workspace = true
+game-simulation = { path = "../../crates/game-simulation" }
