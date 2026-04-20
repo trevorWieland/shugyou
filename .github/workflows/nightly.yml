@@ -5,8 +5,19 @@ on:
     - cron: '0 6 * * *'
   workflow_dispatch:
 
+concurrency:
+  group: nightly-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
+
+env:
+  CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_DEV_DEBUG: 0
+  CARGO_PROFILE_TEST_DEBUG: 0
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: -Cdebuginfo=0
 
 jobs:
   determinism:
@@ -26,6 +37,12 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ubuntu-rust
+          cache-all-crates: true
+          cache-workspace-crates: true
+          cache-on-failure: true
       - uses: taiki-e/install-action@v2
         with:
           tool: just
@@ -46,6 +63,12 @@ jobs:
             libx11-dev \
             libxkbcommon-dev
       - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ubuntu-rust
+          cache-all-crates: true
+          cache-workspace-crates: true
+          cache-on-failure: true
       - uses: taiki-e/install-action@v2
         with:
           tool: just
@@ -66,6 +89,12 @@ jobs:
             libx11-dev \
             libxkbcommon-dev
       - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ubuntu-rust
+          cache-all-crates: true
+          cache-workspace-crates: true
+          cache-on-failure: true
       - uses: taiki-e/install-action@v2
         with:
           tool: just

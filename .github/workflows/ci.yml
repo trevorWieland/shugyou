@@ -5,8 +5,19 @@ on:
   push:
     branches: [main]
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
+
+env:
+  CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_DEV_DEBUG: 0
+  CARGO_PROFILE_TEST_DEBUG: 0
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: -Cdebuginfo=0
 
 jobs:
   ci:
@@ -35,6 +46,11 @@ jobs:
 
       - name: Cache cargo
         uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ubuntu-rust
+          cache-all-crates: true
+          cache-workspace-crates: true
+          cache-on-failure: true
 
       - name: Install tools
         uses: taiki-e/install-action@v2
