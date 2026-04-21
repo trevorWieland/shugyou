@@ -13,5 +13,4 @@ bevy_ecs.workspace = true
 game-command = { path = "../game-command" }
 game-content = { path = "../game-content" }
 game-observation = { path = "../game-observation" }
-rand.workspace = true
 rand_chacha.workspace = true
