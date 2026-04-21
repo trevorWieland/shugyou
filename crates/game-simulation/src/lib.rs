@@ -2,8 +2,7 @@ use bevy_ecs::prelude::Resource;
 use game_command::GameCommand;
 use game_content::ContentManifest;
 use game_observation::Observation;
-use rand::{RngCore, SeedableRng};
-use rand_chacha::ChaCha8Rng;
+use rand_chacha::{ChaCha8Rng, rand_core::SeedableRng};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Resource)]
 pub struct SimulationTick(pub u64);
@@ -38,8 +37,7 @@ impl SimulationState {
         }
     }
 
-    pub fn step(&mut self, command_buffer: &mut CommandBuffer, rng: &mut SimulationRng) {
-        let _noise = rng.0.next_u32();
+    pub fn step(&mut self, command_buffer: &mut CommandBuffer, _rng: &mut SimulationRng) {
         self.commands_applied += command_buffer.0.len() as u64;
         command_buffer.0.clear();
         self.tick.0 += 1;
