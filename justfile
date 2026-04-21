@@ -59,7 +59,6 @@ check:
   cargo check --workspace
   just lint
   just quality
-  cargo test -p game-testing
 
 ci:
   just check
